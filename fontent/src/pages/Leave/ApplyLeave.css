@@ -1,0 +1,334 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f7fc;
+}
+
+.leave-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.leave-card {
+  width: 100%;
+  max-width: 600px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.leave-card h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.form-group textarea {
+  resize: none;
+}
+
+.date-row {
+  display: flex;
+  gap: 15px;
+}
+
+.date-row .form-group {
+  flex: 1;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  background: #1976d2;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background: #1565c0;
+}
+
+@media (max-width: 600px) {
+  .date-row {
+    flex-direction: column;
+  }
+}
+
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+}
+
+.approval-container {
+  padding: 30px;
+}
+
+.approval-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.approval-card h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #1976d2;
+  color: white;
+  padding: 14px;
+  text-align: left;
+}
+
+td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+  background: #f9fbff;
+}
+
+.pending {
+  background: #fff3cd;
+  color: #856404;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.approve-btn,
+.reject-btn {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  margin-right: 8px;
+}
+
+.approve-btn {
+  background: #28a745;
+}
+
+.approve-btn:hover {
+  background: #218838;
+}
+
+.reject-btn {
+  background: #dc3545;
+}
+
+.reject-btn:hover {
+  background: #c82333;
+}
+
+@media (max-width: 900px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+.approved {
+  background: #28a745;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pending {
+  background: #ffc107;
+  color: #000;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.rejected {
+  background: #dc3545;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.approve-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  margin-right: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.reject-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.approve-btn:hover {
+  background: #218838;
+}
+
+.reject-btn:hover {
+  background: #c82333;
+}
+
+
+
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f4f6f9;
+  font-family: Arial, sans-serif;
+}
+
+.leave-list-container {
+  padding: 30px;
+}
+
+.leave-list-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.apply-btn {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.apply-btn:hover {
+  background: #1565c0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #1976d2;
+  color: white;
+  padding: 14px;
+  text-align: left;
+}
+
+td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+  background: #f8fbff;
+}
+
+.approved,
+.pending,
+.rejected {
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.approved {
+  background: #28a745;
+}
+
+.pending {
+  background: #f0ad4e;
+}
+
+.rejected {
+  background: #dc3545;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
