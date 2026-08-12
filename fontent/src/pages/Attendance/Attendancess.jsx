@@ -21,32 +21,39 @@ export default function Attendance() {
     const [employee, setEmployee] = useState(null);
 
 
-    const [attendance, setAttendance] = useState({
+    const [attendance,setAttendance] = useState({
 
-        checkIn:null,
-        checkOut:null,
-        workingHours:"00h 00m",
-        status:"Absent"
+    checkIn:null,
 
-    });
+    checkOut:null,
 
+    workingHours:"00h 00m",
 
+    status:"Absent"
 
-    useEffect(()=>{
-
-    const employee =
-    JSON.parse(
-        localStorage.getItem("employee")
-    );
+});
 
 
-    if(employee){
+
+   useEffect(() => {
+
+    const storedEmployee =
+        JSON.parse(localStorage.getItem("employee"));
+
+
+    if(storedEmployee){
+
+        setEmployee(storedEmployee);
+
+        setEmployeeId(
+            storedEmployee.employee_id
+        );
+
 
         axios.get(
-        `http://localhost:8000/api/attendance/employee/${employee.employee_id}`
+            `http://localhost:8000/api/attendance/employee/${storedEmployee.employee_id}`
         )
         .then(res=>{
-
 
             if(res.data.attendance){
 
@@ -55,14 +62,11 @@ export default function Attendance() {
                     checkIn:
                     res.data.attendance.check_in,
 
-
                     checkOut:
                     res.data.attendance.check_out,
 
-
                     workingHours:
                     res.data.attendance.working_hours || "00h 00m",
-
 
                     status:
                     res.data.attendance.status
@@ -71,12 +75,12 @@ export default function Attendance() {
 
             }
 
-
+        })
+        .catch(error=>{
+            console.log(error);
         });
 
-
     }
-
 
 },[]);
 
@@ -120,7 +124,7 @@ export default function Attendance() {
 
     }
 
-};   // <-- getAttendance close
+};   
 
 
 
@@ -130,7 +134,6 @@ const handleCheckIn = async () => {
         alert("Employee not found");
         return;
     }
-
 
     try {
 
@@ -142,35 +145,26 @@ const handleCheckIn = async () => {
         );
 
 
-        console.log(response.data);
-
-
-
         setAttendance(prev => ({
 
             ...prev,
 
-            checkIn: new Date().toLocaleTimeString(),
+            checkIn:
+            response.data.attendance?.check_in
+            ||
+            new Date().toLocaleTimeString(),
 
-            status: "Present"
+            status:"Present"
 
         }));
 
 
-
-        alert(
-            response.data.message
-        );
+        alert(response.data.message);
 
 
-    } 
-    catch(error) {
+    } catch(error) {
 
-
-        console.log(
-            error.response?.data
-        );
-
+        console.log(error.response?.data);
 
         alert(
             error.response?.data?.message ||
@@ -189,64 +183,53 @@ const handleCheckOut = async () => {
 
 
     if (!employee) {
+
         alert("Employee not found");
+
         return;
     }
-
 
 
     try {
 
 
         const response = await axios.post(
-
             "http://localhost:8000/api/attendance/checkout",
-
             {
                 employee_id: employee.employee_id
             }
-
         );
-
-
-
-        console.log(response.data);
 
 
 
         setAttendance(prev => ({
 
-
             ...prev,
 
-
             checkOut:
+            response.data.attendance?.check_out
+            ||
             new Date().toLocaleTimeString(),
 
 
             workingHours:
-            response.data.working_hours,
+            response.data.attendance?.working_hours
+            ||
+            "00h 00m",
 
 
             status:"Present"
 
-
         }));
 
 
-
-        alert(
-            response.data.message
-        );
+        alert(response.data.message);
 
 
-    } 
-    catch(error) {
+    } catch(error) {
 
 
-        console.log(
-            error.response?.data
-        );
+        console.log(error.response?.data);
 
 
         alert(
@@ -335,16 +318,15 @@ return (
                         />
 
 
-
-                        <AttendanceAction
-                            attendance={attendance}
-                            onCheckIn={handleCheckIn}
-                            onCheckOut={handleCheckOut}
-                        />
-
+                           <AttendanceAction
+                               attendance={attendance}
+                               onCheckIn={handleCheckIn}
+                               onCheckOut={handleCheckOut}
+                           />
 
 
-                        <AttendanceSummary />
+
+                        <AttendanceSummary attendance={attendance} />
 
 
                     </>

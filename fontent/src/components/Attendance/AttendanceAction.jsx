@@ -12,7 +12,11 @@ export default function AttendanceAction({
 
         <div className="attendance-action-card">
 
-            <h3>Attendance Action</h3>
+
+            <h3>
+                Attendance Action
+            </h3>
+
 
 
             <div className="attendance-time">
@@ -24,11 +28,18 @@ export default function AttendanceAction({
                         Check In
                     </span>
 
+
                     <strong>
-                        {attendance.checkIn || "--:--"}
+                        {
+                            attendance.checkIn 
+                            || 
+                            "--:--"
+                        }
                     </strong>
 
+
                 </div>
+
 
 
 
@@ -38,9 +49,15 @@ export default function AttendanceAction({
                         Check Out
                     </span>
 
+
                     <strong>
-                        {attendance.checkOut || "--:--"}
+                        {
+                            attendance.checkOut
+                            ||
+                            "--:--"
+                        }
                     </strong>
+
 
                 </div>
 
@@ -49,28 +66,46 @@ export default function AttendanceAction({
 
 
 
+
+
             <div className="action-buttons">
 
 
                 <button
+
                     className="checkin-button"
+
                     onClick={onCheckIn}
-                    disabled={attendance.checkIn !== null}
+
+                    disabled={
+                        Boolean(attendance.checkIn)
+                    }
+
                 >
+
                     Check In
+
                 </button>
 
 
 
+
+
                 <button
+
                     className="checkout-button"
+
                     onClick={onCheckOut}
+
                     disabled={
-                        attendance.checkIn === null ||
-                        attendance.checkOut !== null
+                        !attendance.checkIn ||
+                        Boolean(attendance.checkOut)
                     }
+
                 >
+
                     Check Out
+
                 </button>
 
 
@@ -79,19 +114,29 @@ export default function AttendanceAction({
 
 
 
+
+
             <div className="status-box">
+
 
                 Status:
 
+
                 <span
+
                     className={
                         attendance.status === "Present"
-                        ? "present"
-                        : "absent"
+                        ?
+                        "present"
+                        :
+                        "absent"
                     }
+
                 >
 
-                    {attendance.status}
+                    {
+                        attendance.status
+                    }
 
                 </span>
 

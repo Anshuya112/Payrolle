@@ -70,6 +70,7 @@ import TaxReport from "./pages/Tax/TaxReport";
 import Permission from "./pages/User&RoleManagement/Permission";
 import Role from "./pages/User&RoleManagement/Role";
 import UserList from "./pages/User&RoleManagement/UserList";
+import Payslip from "./pages/Payroll/Payslip";
 
 
 
@@ -129,7 +130,9 @@ function App() {
         <Route path="Payroll/List" element={<PayrollList />} />
         <Route path="Payroll/Details" element={<PayrollDetails />} />
         <Route path="PayrollHistory" element={<PayrollHistory />} />
-
+        <Route path="Payslip" element={<Payslip />} />
+          
+        
         {/*Reports*/}
         <Route path="AttendanceReport" element={<AttendanceReport />} />
         <Route path="EmployeeReport" element={<EmployeeReport />} />

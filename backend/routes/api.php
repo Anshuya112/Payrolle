@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Attendance\AttendanceController;
 use App\Http\Controllers\Api\Employee\EmployeeController;
 use App\Http\Controllers\Api\Employee\EmployeeDocumentController;
+use App\Http\Controllers\Api\Payroll\PayrollController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -32,3 +33,11 @@ Route::put("/employees/{id}",[EmployeeController::class,"update"]);
 Route::delete('/employees/{id}',[EmployeeController::class,'destroy']);
 
 Route::get('/employee-documents/{id}',[EmployeeDocumentController::class,'show']);
+
+
+
+Route::get('/payrolls', [PayrollController::class, 'index']);
+Route::get('/payroll/generate', [PayrollController::class, 'create']);
+Route::post('/payroll/generate', [PayrollController::class, 'store']);
+Route::get('/payrolls/{id}', [PayrollController::class, 'show']);
+Route::delete('/payrolls/{id}', [PayrollController::class, 'destroy']);

@@ -1,0 +1,28 @@
+# Laravel
+backend/.env
+backend/.env.*
+backend/vendor/
+backend/storage/*.key
+backend/storage/logs/
+backend/bootstrap/cache/
+
+# Node / Frontend
+fontent/node_modules/
+fontent/dist/
+fontent/build/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+
+

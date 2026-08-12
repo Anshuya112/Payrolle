@@ -102,12 +102,12 @@ public function employeeAttendance($employee_id)
     }
 
 
-    $attendance = Attendance::where(
-        'employee_id',
-        $employee->id
-    )
-    ->latest()
-    ->first();
+         $attendance = Attendance::where(
+          'employee_id',
+          $employee->employee_id
+      )
+      ->latest()
+      ->first();
 
 
     return response()->json([
@@ -218,9 +218,13 @@ public function employeeAttendance($employee_id)
 
 
 
-
 public function checkIn(Request $request)
 {
+
+    $request->validate([
+        'employee_id'=>'required'
+    ]);
+
 
     $employee = Employee::where(
         'employee_id',
@@ -232,51 +236,46 @@ public function checkIn(Request $request)
 
         return response()->json([
             "message"=>"Employee not found"
-        ],404);
-
-    }
-
-
-    $today = date('Y-m-d');
-
-
-    // Already checked today?
-    $already = Attendance::where(
-        'employee_id',
-        $employee->id
-    )
-    ->whereDate(
-        'date',
-        $today
-    )
-    ->first();
-
-
-
-    if($already){
-
-        return response()->json([
-            "message"=>"Already Checked In"
         ],400);
 
     }
 
 
 
-    Attendance::create([
+    $attendance = Attendance::where(
+        'employee_id',
+        $request->employee_id
+    )
+    ->whereDate(
+        'created_at',
+        today()
+    )
+    ->first();
 
-        "employee_id"=>$employee->id,
+
+
+    if($attendance){
+
+        return response()->json([
+            "message"=>"Already checked in"
+        ],400);
+
+    }
+
+
+
+    $attendance = Attendance::create([
+
+        "employee_id"=>$employee->employee_id,
 
         "employee_name" =>
-        $employee->first_name." ".$employee->last_name,
+            $employee->first_name . " " . $employee->last_name,
 
-        "date"=>$today,
+        "date"=>today(),
 
-        "status"=>"Present",
+        "check_in"=>now(),
 
-        "check_in"=>date("H:i:s"),
-
-        "check_out"=>null
+        "status"=>"Present"
 
     ]);
 
@@ -284,33 +283,29 @@ public function checkIn(Request $request)
 
     return response()->json([
 
-        "message"=>"Check In Successful"
+        "message"=>"Check In Successfully",
+
+        "check_in" => $attendance->check_in
 
     ]);
 
 }
 
-
 public function checkOut(Request $request)
 {
 
-    $employee = Employee::where(
-        'employee_id',
-        $request->employee_id
-    )->first();
-
-
-
-    $today=date('Y-m-d');
+    $request->validate([
+        'employee_id'=>'required'
+    ]);
 
 
     $attendance = Attendance::where(
         'employee_id',
-        $employee->id
+        $request->employee_id
     )
     ->whereDate(
-        'date',
-        $today
+        'created_at',
+        today()
     )
     ->first();
 
@@ -326,46 +321,34 @@ public function checkOut(Request $request)
 
 
 
-    if($attendance->check_out){
-
-        return response()->json([
-            "message"=>"Already Checked Out"
-        ],400);
-
-    }
-
-
-
-    $attendance->check_out = date("H:i:s");
-
-
-
     $checkIn = Carbon::parse(
         $attendance->check_in
     );
 
 
-    $checkOut = Carbon::parse(
-        $attendance->check_out
-    );
+    $checkOut = Carbon::now();
 
 
 
-    $attendance->working_hours =
-    $checkIn->diff($checkOut)
-    ->format("%H Hours %I Minutes");
+    $attendance->update([
 
+        "check_out"=>$checkOut,
 
+        "working_hours" =>
+            $checkIn->diff($checkOut)
+                    ->format('%Hh %Im'),
 
-    $attendance->save();
+        "status"=>"Present"
+
+    ]);
 
 
 
     return response()->json([
 
-        "message"=>"Check Out Successful",
+        "message"=>"Check Out Successfully",
 
-        "working_hours"=>$attendance->working_hours
+        "attendance"=>$attendance
 
     ]);
 

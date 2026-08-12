@@ -1,355 +1,244 @@
-import "./EmployeeCreate.css";
-import { Link, useNavigate, } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
 
+import "./EmployeeCreate.css";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function EmployeeList() {
 
-  const [employees, setEmployees] = useState([]);
-const navigate = useNavigate();
-const { id } = useParams();
+    const [employees, setEmployees] = useState([]);
+    const navigate = useNavigate();
 
-const [employee, setEmployee] = useState(null);
+    const getEmployees = async () => {
+        try {
+            const response = await fetch(
+                "http://localhost:8000/api/employees"
+            );
 
-useEffect(() => {
-    fetchEmployee();
-}, []);
+            const data = await response.json();
 
-const fetchEmployee = async () => {
-    try {
-        const response = await axios.get(
-            `http://localhost:8000/api/employees/${id}`
+            console.log("Employees API:", data);
+
+            if (data.employees) {
+                setEmployees(data.employees);
+            } else {
+                setEmployees(data);
+            }
+
+        } catch (error) {
+            console.error("Get employees error:", error);
+        }
+    };
+
+    useEffect(() => {
+        getEmployees();
+    }, []);
+
+    const deleteEmployee = async (id) => {
+
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this employee?"
         );
 
-        setEmployee(response.data.employee);
-    } catch (error) {
-        console.log(error);
-    }
-};
+        if (!confirmDelete) return;
 
-const openAttendance = (employee) => {
-    navigate(`/attendance/${employee.id}`);
-};
+        try {
 
-  const getEmployees = async () => {
+            const response = await fetch(
+                `http://localhost:8000/api/employees/${id}`,
+                {
+                    method: "DELETE",
+                }
+            );
 
-    try {
+            const data = await response.json();
 
-      const response = await fetch(
-        "http://localhost:8000/api/employees"
-      );
+            alert(data.message);
 
+            getEmployees();
 
-      const data = await response.json();
+        } catch (error) {
 
-      console.log(data);
+            console.error("Delete error:", error);
 
+            alert("Delete Failed");
+        }
+    };
 
-      // Laravel response check
-      if (data.employees) {
-        setEmployees(data.employees);
-      } 
-      else {
-        setEmployees(data);
-      }
+    return (
+        <div className="employee-page">
 
+            <div className="employee-header">
 
-    } 
-    catch(error) {
+                <div>
+                    <h2>Employee List</h2>
 
-      console.log(error);
+                    <p>
+                        Manage all employees
+                    </p>
+                </div>
 
-    }
+                <Link
+                    to="/Employees/Create"
+                    className="add-btn"
+                >
+                    + Add Employee
+                </Link>
 
-  };
+            </div>
 
+            <div className="search-card">
 
+                <input
+                    type="text"
+                    placeholder="Search Employee..."
+                />
 
-  useEffect(() => {
+            </div>
 
-    getEmployees();
+            <div className="table-card">
 
-  }, []);
+                <table>
 
+                    <thead>
 
-  const deleteEmployee = async (id) => {
-  const confirmDelete = window.confirm("Are you sure you want to delete this employee?");
+                        <tr>
+                            <th>ID</th>
+                            <th>Employee ID</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Designation</th>
+                            <th>Salary</th>
+                            <th>Action</th>
+                        </tr>
 
-  if (!confirmDelete) return;
+                    </thead>
 
-  try {
-    const response = await fetch(`http://localhost:8000/api/employees/${id}`, {
-      method: "DELETE",
-    });
+                    <tbody>
 
-    const data = await response.json();
+                        {employees.length > 0 ? (
 
-    alert(data.message);
+                            employees.map((emp) => (
 
-    // Table refresh
-    getEmployees();
+                                <tr key={emp.id}>
 
-  } catch (error) {
-    console.log(error);
-    alert("Delete Failed");
-  }
-};
+                                    <td>
+                                        {emp.id}
+                                    </td>
 
+                                    <td>
+                                        {emp.employee_id}
+                                    </td>
 
+                                    <td>
+                                        {emp.first_name} {emp.last_name}
+                                    </td>
 
+                                    <td>
+                                        {emp.department}
+                                    </td>
 
-  return (
+                                    <td>
+                                        {emp.designation}
+                                    </td>
 
-    <div className="employee-page">
+                                    <td>
+                                        ₹{emp.salary}
+                                    </td>
 
+                                    <td>
 
-      <div className="employee-header">
+                                        <select
+                                            className="action-select"
+                                            defaultValue=""
+                                            onChange={(e) => {
 
+                                                const value = e.target.value;
 
-        <div>
+                                                if (value === "document") {
+                                                    navigate(
+                                                        `/Employee/Documents/${emp.id}`
+                                                    );
+                                                }
 
-          <h2>Employee List</h2>
+                                                if (value === "view") {
+                                                    navigate(
+                                                        `/Employees/View/${emp.id}`
+                                                    );
+                                                }
 
-          <p>
-            Manage all employees
-          </p>
+                                                if (value === "edit") {
+                                                    navigate(
+                                                        `/Employees/Edit/${emp.id}`
+                                                    );
+                                                }
+
+                                                if (value === "profile") {
+                                                    navigate(
+                                                        `/Employee/Profile/${emp.id}`
+                                                    );
+                                                }
+
+                                                if (value === "delete") {
+                                                    deleteEmployee(emp.id);
+                                                }
+
+                                                e.target.value = "";
+
+                                            }}
+                                        >
+
+                                            <option value="">
+                                                Action
+                                            </option>
+
+                                            <option value="document">
+                                                Document
+                                            </option>
+
+                                            <option value="view">
+                                                View
+                                            </option>
+
+                                            <option value="edit">
+                                                Edit
+                                            </option>
+
+                                            <option value="profile">
+                                                Profile
+                                            </option>
+
+                                            <option value="delete">
+                                                Delete
+                                            </option>
+
+                                        </select>
+
+                                    </td>
+
+                                </tr>
+
+                            ))
+
+                        ) : (
+
+                            <tr>
+
+                                <td colSpan="7">
+                                    No Employee Found
+                                </td>
+
+                            </tr>
+
+                        )}
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </div>
-          
-       <button onClick={() => openAttendance(employee)}>
-          Attendance
-          </button>
-
-        <Link
-          to="/Employees/Create"
-          className="add-btn"
-        >
-          + Add Employee
-        </Link>
-
-
-      </div>
-
-
-      <div className="search-card">
-
-
-        <input
-
-          type="text"
-
-          placeholder="Search Employee..."
-
-        />
-
-      </div>
-
-
-
-
-
-
-
-
-    
-
-      <div className="table-card">
-
-
-        <table>
-
-
-          <thead>
-
-
-            <tr>
-
-              <th>ID</th>
-
-              <th>Employee ID</th>
-
-              <th>Name</th>
-
-              <th>Department</th>
-
-              <th>Designation</th>
-
-              <th>Salary</th>
-
-              <th>Action</th>
-
-
-            </tr>
-
-
-          </thead>
-
-
-
-
-
-
-          <tbody>
-
-
-          {
-
-            employees.length > 0 ? (
-
-              employees.map((emp)=>(
-
-
-                <tr key={emp.id}>
-
-
-                  <td>
-                    {emp.id}
-                  </td>
-
-
-
-                  <td>
-                    {emp.employee_id}
-                  </td>
-
-
-
-
-                  <td>
-                    {emp.first_name} {emp.last_name}
-                  </td>
-
-
-
-
-                  <td>
-                    {emp.department}
-                  </td>
-
-
-
-
-                  <td>
-                    {emp.designation}
-                  </td>
-
-
-
-
-                  <td>
-                    ₹{emp.salary}
-                  </td>
-
-
-
-
-
-               <td>
-                              <select
-                  className="action-select"
-                  onChange={(e) => {
-                    const value = e.target.value;
-             
-                    if (value === "document") {
-                      window.location.href = `/Employee/Documents/${emp.id}`;
-                    }
-             
-                    if (value === "view") {
-                      window.location.href = `/Employees/View/${emp.id}`;
-                    }
-             
-                    if (value === "edit") {
-                      window.location.href = `/Employees/Edit/${emp.id}`;
-                    }
-
-                    if (value === "profile") {
-                      window.location.href = `/Employee/Profile/${emp.id}`;
-                    }
-             
-                    if (value === "delete") {
-                     deleteEmployee(emp.id);
-                   }
-             
-                   e.target.value = "";
-                 }}
-               >
-                 <option value=""> Action</option>
-                 <option value="document" onClick={()=>{
-                   navigate(`/employee-documents/${employee.id}`)
-                  }}>Document</option>
-                 <option value="view">View</option>
-                 <option value="edit">Edit</option>
-                 <option value="profile">Profile</option>
-                 <option value="delete">Delete</option>
-               </select>
-             </td>
-
-
-
-                </tr>
-
-
-              ))
-
-
-            )
-
-            :
-
-            (
-
-              <tr>
-
-                <td colSpan="7">
-
-                  No Employee Found
-
-                </td>
-
-
-              </tr>
-
-            )
-
-
-          }
-
-
-
-          </tbody>
-
-
-        </table>
-
-
-      </div>
-
-
-      
-
-
-
-
-    </div>
-
-
-  );
-
+    );
 }
 
-
 export default EmployeeList;
-
-
-
-
-
-
-
-
-
-
-
- 
