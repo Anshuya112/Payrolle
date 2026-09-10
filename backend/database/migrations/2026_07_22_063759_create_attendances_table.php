@@ -32,6 +32,7 @@ return new class extends Migration
 
     public function down()
 {
+$table->time('check_out')->nullable();
     Schema::table('attendances', function (Blueprint $table) {
         $table->time('check_out')->nullable(false)->change();
     });

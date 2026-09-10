@@ -1,28 +1,47 @@
+
 # Laravel
-backend/.env
-backend/.env.*
 backend/vendor/
+backend/node_modules/
+backend/.env
 backend/storage/*.key
-backend/storage/logs/
-backend/bootstrap/cache/
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/logs/*
+backend/bootstrap/cache/*
 
-# Node / Frontend
-fontent/node_modules/
-fontent/dist/
-fontent/build/
+# React / Vite
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
 
-# Environment files
+# General
+*.log
+.DS_Store
 .env
 .env.*
 !.env.example
+# Laravel
+backend/vendor/
+backend/node_modules/
+backend/.env
+backend/storage/*.key
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/logs/*
+backend/bootstrap/cache/*
 
-# OS files
+# React / Vite
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+
+# General
+*.log
 .DS_Store
-Thumbs.db
-
-# IDE
-.vscode/
-.idea/
-
-
-
+.env
+.env.*
+!.env.example

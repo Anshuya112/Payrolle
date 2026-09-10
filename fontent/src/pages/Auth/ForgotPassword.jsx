@@ -1,135 +1,310 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
-function ForgotPassword() {
-  const [email, setEmail] = useState("");
+const API_URL = "http://127.0.0.1:8000/api";
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(`Password reset link sent to: ${email}`);
-  };
+export default function ForgotPassword() {
+    const navigate = useNavigate();
 
-  return (
-    <>
-      <style>{`
-        *{
-          margin:0;
-          padding:0;
-          box-sizing:border-box;
-          font-family:Arial, sans-serif;
+    const [username, setUsername] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
+
+    const [showOptions, setShowOptions] = useState(false);
+
+ 
+    const handleFindUser = async (e) => {
+        e.preventDefault();
+
+        setError("");
+        setMessage("");
+
+        const enteredUsername = username.trim();
+
+        if (!enteredUsername) {
+            setError("Please enter your username.");
+            return;
         }
 
-        body{
-          margin:0;
+        try {
+            setLoading(true);
+
+            const response = await fetch(
+                `${API_URL}/forgot-password`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify({
+                        username: enteredUsername,
+                    }),
+                }
+            );
+
+            const data = await response.json();
+
+            console.log("Find User Response:", data);
+
+            if (!response.ok) {
+                if (data.errors) {
+                    const firstError =
+                        Object.values(data.errors)[0]?.[0];
+
+                    throw new Error(
+                        firstError ||
+                        data.message ||
+                        "User not found."
+                    );
+                }
+
+                throw new Error(
+                    data.message ||
+                    "User not found."
+                );
+            }
+
+            setUsername(enteredUsername);
+
+          
+            setShowOptions(true);
+
+            setMessage(
+                "Account found. Select where you want to receive the OTP."
+            );
+
+        } catch (error) {
+            console.error(
+                "Forgot Password Error:",
+                error
+            );
+
+            setError(
+                error.message ||
+                "Something went wrong."
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+
+    const sendOtp = async (method) => {
+        setError("");
+        setMessage("");
+
+        const enteredUsername = username.trim();
+
+        if (!enteredUsername) {
+            setError("Username is required.");
+            return;
         }
 
-        .forgot-container{
-          height:100vh;
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          background :linear-gradient(135deg,rgb(42, 222, 165), #764ba2);
+     
+        if (!["email", "mobile"].includes(method)) {
+            setError("Invalid OTP method.");
+            return;
         }
 
-        .forgot-card{
-          width:380px;
-          background:#fff;
-          padding:35px;
-          border-radius:15px;
-          box-shadow:0 10px 30px rgba(0,0,0,.2);
+        console.log("Sending OTP:", {
+            username: enteredUsername,
+            method: method,
+        });
+
+        try {
+            setLoading(true);
+
+            const response = await fetch(
+                `${API_URL}/send-reset-otp`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+
+                    body: JSON.stringify({
+                        username: enteredUsername,
+                        method: method,
+                    }),
+                }
+            );
+
+            const data = await response.json();
+
+            console.log(
+                "Send OTP Response:",
+                data
+            );
+
+            if (!response.ok) {
+                console.error(
+                    "Backend Error:",
+                    data
+                );
+
+                if (data.errors) {
+                    const firstError =
+                        Object.values(data.errors)[0]?.[0];
+
+                    throw new Error(
+                        firstError ||
+                        data.message ||
+                        "Unable to send OTP."
+                    );
+                }
+
+                throw new Error(
+                    data.message ||
+                    "Unable to send OTP."
+                );
+            }
+
+            setMessage(
+                data.message ||
+                "OTP has been sent successfully."
+            );
+
+       
+
+            setTimeout(() => {
+                navigate(
+                    `/verify-reset-otp?username=${encodeURIComponent(
+                        enteredUsername
+                    )}`
+                );
+            }, 500);
+
+        } catch (error) {
+            console.error(
+                "Send OTP Error:",
+                error
+            );
+
+            setError(
+                error.message ||
+                "Unable to send OTP."
+            );
+        } finally {
+            setLoading(false);
         }
+    };
 
-        .forgot-card h2{
-          text-align:center;
-          color:#333;
-          margin-bottom:10px;
-        }
 
-        .forgot-card p{
-          text-align:center;
-          color:#666;
-          font-size:14px;
-          margin-bottom:25px;
-        }
+    return (
+        <div className="auth-container">
+            <div className="auth-card">
 
-        .input-group{
-          margin-bottom:20px;
-        }
+                <h2>Forgot Password</h2>
 
-        .input-group input{
-          width:100%;
-          padding:12px;
-          border:1px solid #ccc;
-          border-radius:8px;
-          outline:none;
-          font-size:15px;
-        }
+                <p>
+                    Enter your username to recover your account.
+                </p>
 
-        .input-group input:focus{
-          border-color:#667eea;
-        }
 
-        .btn{
-          width:100%;
-          padding:12px;
-          border:none;
-          border-radius:8px;
-          background:#667eea;
-          color:#fff;
-          font-size:16px;
-          cursor:pointer;
-          transition:.3s;
-        }
+            
 
-        .btn:hover{
-          background:#5563c1;
-        }
+                {error && (
+                    <div className="error-message">
+                        {error}
+                    </div>
+                )}
 
-        .back-login{
-          margin-top:20px;
-          text-align:center;
-        }
+                {message && (
+                    <div className="success-message">
+                        {message}
+                    </div>
+                )}
 
-        .back-login a{
-          color:#667eea;
-          text-decoration:none;
-          font-size:14px;
-        }
+                {!showOptions && (
+                    <form onSubmit={handleFindUser}>
 
-        .back-login a:hover{
-          text-decoration:underline;
-        }
-      `}</style>
+                        <div className="form-group">
 
-      <div className="forgot-container">
-        <div className="forgot-card">
-          <h2>Forgot Password</h2>
-          <p>
-            Enter your email address and we'll send you a password reset link.
-          </p>
+                            <label>
+                                Username
+                            </label>
 
-          <form onSubmit={handleSubmit}>
-            <div className="input-group">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={(e) =>
+                                    setUsername(
+                                        e.target.value
+                                    )
+                                }
+                                placeholder="Enter your username"
+                                autoComplete="username"
+                            />
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                        >
+                            {loading
+                                ? "Checking..."
+                                : "Continue"}
+                        </button>
+
+                    </form>
+                )}
+
+
+                {showOptions && (
+                    <div className="otp-options">
+
+                        <h3>
+                            Where should we send the OTP?
+                        </h3>
+
+                        <p>
+                            Choose your registered email
+                            or mobile number.
+                        </p>
+
+
+                        {/* Email */}
+
+                        <button
+                            type="button"
+                            onClick={() =>
+                                sendOtp("email")
+                            }
+                            disabled={loading}
+                        >
+                            {loading
+                                ? "Sending..."
+                                : "📧 Send OTP to Email"}
+                        </button>
+
+
+                        {/* Mobile */}
+
+                        <button
+                            type="button"
+                            onClick={() =>
+                                sendOtp("mobile")
+                            }
+                            disabled={loading}
+                        >
+                            {loading
+                                ? "Sending..."
+                                : "📱 Send OTP to Mobile"}
+                        </button>
+
+                    </div>
+                )}
+
             </div>
-
-            <button className="btn" type="submit">
-              Send Reset Link
-            </button>
-          </form>
-
-          <div className="back-login">
-            <a href="/login">← Back to Login</a>
-          </div>
         </div>
-      </div>
-    </>
-  );
+    );
 }
-
-export default ForgotPassword;

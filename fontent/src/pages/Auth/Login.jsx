@@ -1,152 +1,233 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+import {
+  saveLogin,
+  isAuthenticated,
+} from "../../utils/auth";
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(`Login Attempt\nEmail: ${email}`);
-  };
+import "./Login.css";
+
+const API_BASE =
+  "http://127.0.0.1:8000/api";
+
+export default function Login() {
+  const navigate = useNavigate();
+
+  const [username, setUsername] =
+    useState("");
+
+  const [password, setPassword] =
+    useState("");
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [error, setError] =
+    useState("");
+
+
+  useEffect(() => {
+
+    if (isAuthenticated()) {
+
+      navigate(
+        "/dashboard",
+        {
+          replace: true,
+        }
+      );
+
+    }
+
+  }, [navigate]);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  setLoading(true);
+  setError("");
+
+  try {
+    const response = await fetch(
+      `${API_BASE}/login`,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+
+        body: JSON.stringify({
+          username: username.trim(),
+          password,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(
+        data.message ||
+        "Invalid username or password."
+      );
+    }
+
+    /*
+     * IMPORTANT
+     *
+     * Save complete authentication object.
+     */
+
+    saveLogin({
+      token: data.token,
+      access_token: data.access_token,
+      user: data.user,
+      role: data.user?.role,
+      roles: data.user?.roles,
+      source: data.user?.source,
+    });
+
+    /*
+     * Optional compatibility storage
+     */
+
+    localStorage.setItem(
+      "payroll_user",
+      JSON.stringify(data.user)
+    );
+
+    /*
+     * Go to dashboard only once
+     */
+
+    navigate("/dashboard", {
+      replace: true,
+    });
+
+  } catch (error) {
+    console.error(
+      "Login Error:",
+      error
+    );
+
+    setError(
+      error.message ||
+      "Unable to login."
+    );
+
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
-    <>
-      <style>{`
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: Arial, sans-serif;
-        }
-
-        .login-container {
-          height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background: linear-gradient(135deg,rgb(212, 234, 102), #764ba2);
-        }
-
-        .login-card {
-          width: 380px;
-          background: white;
-          padding: 35px;
-          border-radius: 16px;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .login-card h2 {
-          text-align: center;
-          color: #333;
-          margin-bottom: 10px;
-        }
-
-        .login-card p {
-          text-align: center;
-          color: #777;
-          margin-bottom: 25px;
-        }
-
-        .input-group {
-          margin-bottom: 18px;
-        }
-
-        .input-group input {
-          width: 100%;
-          padding: 13px;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          outline: none;
-          font-size: 15px;
-        }
-
-        .input-group input:focus {
-          border-color: #667eea;
-        }
-
-        .options {
-          display: flex;
-          justify-content: space-between;
-          font-size: 14px;
-          margin-bottom: 20px;
-        }
-
-        .options a,
-        .signup a {
-          color: #667eea;
-          text-decoration: none;
-        }
-
-        button {
-          width: 100%;
-          padding: 13px;
-          border: none;
-          border-radius: 8px;
-          background: #667eea;
-          color: white;
-          font-size: 16px;
-          cursor: pointer;
-        }
-
-        button:hover {
-          background: #5563c1;
-        }
-
-        .signup {
-          text-align: center;
-          margin-top: 20px;
-          font-size: 14px;
-        }
-      `}</style>
+    <div className="login-page">
 
       <div className="login-container">
+
         <div className="login-card">
-          <h2>Welcome Back</h2>
-          <p>Login to your account</p>
 
-          <form onSubmit={handleSubmit}>
-            <div className="input-group">
-              <input
-                type="email"
-                placeholder="Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+          <div className="login-logo">
+
+            <div className="login-logo-icon">
+              👤
             </div>
 
-            <div className="input-group">
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
+            <h1>
+              Payroll Management
+            </h1>
 
-            <div className="options">
+            <p>
+              Sign in to your account
+            </p>
+
+          </div>
+
+
+          <form
+            onSubmit={handleSubmit}
+            className="login-form"
+          >
+
+            {error && (
+              <div className="login-error">
+                {error}
+              </div>
+            )}
+
+
+            <div className="login-group">
+
               <label>
-                <input type="checkbox" /> Remember me
+                Username
               </label>
 
-              <Link to="/Forgot/Password">Forgot Password?</Link>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) =>
+                  setUsername(
+                    e.target.value
+                  )
+                }
+                placeholder="Enter username"
+                autoComplete="username"
+                disabled={loading}
+              />
+
             </div>
 
-            <button type="submit">
-              Login
+
+            <div className="login-group">
+
+              <label>
+                Password
+              </label>
+
+              <input
+                type="password"
+                value={password}
+                onChange={(e) =>
+                  setPassword(
+                    e.target.value
+                  )
+                }
+                placeholder="Enter password"
+                autoComplete="current-password"
+                disabled={loading}
+              />
+
+            </div>
+
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="login-button"
+            >
+              {loading
+                ? "Signing in..."
+                : "Sign In"}
             </button>
+
           </form>
 
-          <div className="signup">
-            Don't have an account?
-            <a href="#"> Create Account</a>
+
+          <div className="login-footer">
+
+            <span>
+              Secure Payroll System
+            </span>
+
           </div>
+
         </div>
+
       </div>
-    </>
+
+    </div>
   );
 }
-
-export default Login;

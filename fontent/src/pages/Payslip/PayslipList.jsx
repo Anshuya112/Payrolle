@@ -1,7 +1,11 @@
-import React from 'react'
+import { } from 'react-router-dom';
 
 export default function PayslipList() {
   return (
-    <div>PayslipList</div>
+    <div>
+      <div>
+        react router dom
+      </div>
+    </div>
   )
 }

@@ -1,0 +1,38 @@
+[90m= [39m[
+    {#7898
+      +"[1mid[22m": [35m2[39m,
+      +"[1memployee_id[22m": [32m"[39m[32mEMP8765[39m[32m"[39m,
+      +"[1musername[22m": [32m"[39m[32manshu.yadav[39m[32m"[39m,
+      +"[1mstatus[22m": [32m"[39m[32mActive[39m[32m"[39m,
+    },
+    {#7897
+      +"[1mid[22m": [35m3[39m,
+      +"[1memployee_id[22m": [32m"[39m[32mEMP2458[39m[32m"[39m,
+      +"[1musername[22m": [32m"[39m[32maryan.kushwaha[39m[32m"[39m,
+      +"[1mstatus[22m": [32m"[39m[32mActive[39m[32m"[39m,
+    },
+    {#7899
+      +"[1mid[22m": [35m4[39m,
+      +"[1memployee_id[22m": [32m"[39m[32mEMP5280[39m[32m"[39m,
+      +"[1musername[22m": [32m"[39m[32mzxcvb.asdfgh[39m[32m"[39m,
+      +"[1mstatus[22m": [32m"[39m[32mActive[39m[32m"[39m,
+    },
+    {#7900
+      +"[1mid[22m": [35m5[39m,
+      +"[1memployee_id[22m": [32m"[39m[32mEMP4985[39m[32m"[39m,
+      +"[1musername[22m": [32m"[39m[32mtnya.agraval[39m[32m"[39m,
+      +"[1mstatus[22m": [32m"[39m[32mActive[39m[32m"[39m,
+    },
+    {#7901
+      +"[1mid[22m": [35m6[39m,
+      +"[1memployee_id[22m": [32m"[39m[32mEMP9735[39m[32m"[39m,
+      +"[1musername[22m": [32m"[39m[32msonu.yadav[39m[32m"[39m,
+      +"[1mstatus[22m": [32m"[39m[32mActive[39m[32m"[39m,
+    },
+    {#7474
+      +"[1mid[22m": [35m7[39m,
+      +"[1memployee_id[22m": [32m"[39m[32mEMP6818[39m[32m"[39m,
+      +"[1musername[22m": [32m"[39m[32mVISHAL-YADAV[39m[32m"[39m,
+      +"[1mstatus[22m": [32m"[39m[32mActive[39m[32m"[39m,
+    },
+  ]

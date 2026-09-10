@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import Header from "./Header";
 import "./Sidebar.css";
 
 function Sidebar() {
@@ -59,7 +60,7 @@ function Sidebar() {
         { name: "Attendance", path: "/Attendancess" },
         { name: "Attendance List", path: "/AttendanceList" },
         { name: "Mark Attendance", path: "/MarkAttendance" },
-        {name: "AttendanceLogin", path: "/AttendanceLogin" },
+        { name: "AttendanceLogin", path: "/AttendanceLogin" },
       ],
     },
 
@@ -130,6 +131,8 @@ function Sidebar() {
         { name: "System Setting", path: "/Settings/System" },
       ],
     },
+   
+    
   ];
 
   const toggleMenu = (title) => {
@@ -137,84 +140,68 @@ function Sidebar() {
   };
 
   return (
-
     <div className="layout">
 
-
       <aside className="sidebar">
-
 
         <h2 className="logo">
           Payroll
         </h2>
 
-
-
         {
-          menus.map((menu)=>(
+          menus.map((menu) => (
 
             <div key={menu.title}>
-
 
               <div
                 className="menu-title"
                 onClick={() =>
                   setOpenMenu(
                     openMenu === menu.title
-                    ? null
-                    : menu.title
+                      ? null
+                      : menu.title
                   )
                 }
               >
-
                 {menu.title}
-
               </div>
-
-
 
               {
                 openMenu === menu.title && (
 
                   <div className="submenu">
 
-
                     {
-                      menu.submenu.map((item)=>(
+                      menu.submenu.map((item) => (
 
                         <NavLink
                           key={item.path}
                           to={item.path}
-                          className={({isActive}) =>
+                          className={({ isActive }) =>
                             isActive
-                            ? "submenu-link active"
-                            : "submenu-link"
+                              ? "submenu-link active"
+                              : "submenu-link"
                           }
                         >
-
                           {item.name}
-
                         </NavLink>
 
                       ))
                     }
 
-
                   </div>
-
                 )
               }
-
 
             </div>
 
           ))
         }
 
-
       </aside>
 
-
+      {/* ONLY ADDED HEADER */}
+      <Header />
 
       <main className="content">
 
@@ -222,11 +209,8 @@ function Sidebar() {
 
       </main>
 
-
     </div>
-
   );
-
 }
 
 export default Sidebar;

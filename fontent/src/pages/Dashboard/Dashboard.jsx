@@ -189,24 +189,24 @@ function Dashboard() {
 
 
         </div>
-        {/* ATTENTION CARD END */}
+        
 
 
 
       </div>
-      {/* TOP CARDS ROW END */}
+      
 
 
 
 
 
 
-      {/* BOTTOM CHART ROW START */}
+      
       <div className="grid bottom-grid">
 
 
 
-        {/* SALARY CHART START */}
+       
         <div className="box">
                  <Link to="/ActivityList" className="dash-link">
                    Activity List
@@ -248,7 +248,7 @@ function Dashboard() {
 
 
 
-        {/* ATTENDANCE CHART START */}
+        
         <div className="box">
 
 
@@ -307,14 +307,12 @@ function Dashboard() {
 
 
         </div>
-        {/* OVERVIEW END */}
+       
 
 
 
       </div>
-      {/* BOTTOM CHART ROW END */}
-
-      {/* Dashboard Quick Links START */}
+      
 
           <div className="dashboard-links">
           
@@ -334,10 +332,10 @@ function Dashboard() {
           
           </div>
 
-           {/* Dashboard Quick Links END */}
+          
 
     </div>
-    // MAIN DASHBOARD END
+    
 
 
     

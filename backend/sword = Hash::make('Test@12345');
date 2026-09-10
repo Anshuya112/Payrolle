@@ -1,0 +1,17 @@
+[90m= [39m[34;4mApp\Models\Employee[39;24m {#8172
+    [34mid[39m: [35m14[39m,
+    [34memployee_id[39m: [32m"[39m[32mEMP9919[39m[32m"[39m,
+    [34mfirst_name[39m: [32m"[39m[32mSuman[39m[32m"[39m,
+    [34mlast_name[39m: [32m"[39m[32mYadav[39m[32m"[39m,
+    [34memail[39m: [32m"[39m[32msuman@gmail.com[39m[32m"[39m,
+    [34mpassword[39m: [32m"[39m\$[32m2y[39m\$[32m12[39m\$[32mtATobZeXzDMfnYSMFo1DO.OKCUgOwynSeOTb6VMk.B7F9OrGy6Hhy[39m[32m"[39m,
+    [34mphone[39m: [32m"[39m[32m1232123212[39m[32m"[39m,
+    [34mdesignation[39m: [32m"[39m[32mAccountant[39m[32m"[39m,
+    [34mjoining_date[39m: [32m"[39m[32m2026-08-18[39m[32m"[39m,
+    [34msalary[39m: [32m"[39m[32m121212.00[39m[32m"[39m,
+    [34mprofile_image[39m: [36mnull[39m,
+    [34maddress[39m: [32m"[39m[32masdx sdxz[39m[32m"[39m,
+    [34mstatus[39m: [32m"[39m[32mActive[39m[32m"[39m,
+    [34mcreated_at[39m: [32m"[39m[32m2026-08-18 13:34:33[39m[32m"[39m,
+    [34mupdated_at[39m: [32m"[39m[32m2026-08-18 13:34:33[39m[32m"[39m,
+  }

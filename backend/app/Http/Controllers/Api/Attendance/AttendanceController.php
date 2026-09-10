@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Attendance;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+
+
+
 
 
 class AttendanceController extends Controller
@@ -43,47 +47,54 @@ public function getAttendance($code)
 }
 
 
-
 public function login(Request $request)
 {
-
     $request->validate([
-        'employee_id' => 'required',
-        'email' => 'required|email'
+        'employee_id' => 'required|string',
+        'password' => 'required|string',
     ]);
-
 
     $employee = Employee::where(
         'employee_id',
         $request->employee_id
-    )
-    ->where(
-        'email',
-        $request->email
-    )
-    ->first();
-
-
+    )->first();
 
     if (!$employee) {
-
         return response()->json([
-            'message' => 'Invalid Employee ID or Email'
-        ],401);
-
+            'message' => 'Invalid Employee ID or Password'
+        ], 401);
     }
 
+    if (empty($employee->password)) {
+        return response()->json([
+            'message' => 'Employee password not found'
+        ], 401);
+    }
 
+    if (!Hash::check(
+        $request->password,
+        $employee->password
+    )) {
+        return response()->json([
+            'message' => 'Invalid Employee ID or Password'
+        ], 401);
+    }
 
     return response()->json([
-
         'message' => 'Login Successful',
 
-        'employee' => $employee
-
-    ]);
-
+        'employee' => [
+            'id' => $employee->id,
+            'employee_id' => $employee->employee_id,
+            'first_name' => $employee->first_name,
+            'last_name' => $employee->last_name,
+            'email' => $employee->email,
+        ]
+    ], 200);
 }
+
+
+
 
 public function employeeAttendance($employee_id)
 {

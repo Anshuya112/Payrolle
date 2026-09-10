@@ -510,6 +510,60 @@ table tr:hover {
 }
 
 
+.attendance-card {
+    margin-top: 30px;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.attendance-card h3 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #222;
+}
+
+.attendance-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.attendance-item {
+    background: #f5f7fb;
+    padding: 18px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.attendance-item span {
+    color: #666;
+    font-size: 14px;
+}
+
+.attendance-item strong {
+    font-size: 20px;
+    color: #222;
+}
+
+.attendance-item .present {
+    color: #16a34a;
+}
+
+
+@media (max-width: 600px) {
+
+    .attendance-info {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+
 
 
 
