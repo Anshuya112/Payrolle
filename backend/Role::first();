@@ -1,0 +1,16 @@
+[90m= [39m[34;4mApp\Models\AddUser[39;24m {#7908
+    [34mid[39m: [35m1[39m,
+    [34muser_id[39m: [36mnull[39m,
+    [34mfirst_name[39m: [32m"[39m[32mAnshu[39m[32m"[39m,
+    [34mlast_name[39m: [32m"[39m[32mYadav[39m[32m"[39m,
+    [34memail[39m: [32m"[39m[32manshu@gmail.com[39m[32m"[39m,
+    [34mphone[39m: [32m"[39m[32m1234567898[39m[32m"[39m,
+    [34mdepartment[39m: [32m"[39m[32mIT, HR, Finance[39m[32m"[39m,
+    [34mdesignation[39m: [32m"[39m[32mDeveloper[39m[32m"[39m,
+    [34musername[39m: [32m"[39m[32manshu.yadav[39m[32m"[39m,
+    #[33mpassword[39m: [32m"[39m\$[32m2y[39m\$[32m12[39m\$[32mdthwDnuqNOEuq.I5TFDKjOaqLOqGq4mfyLWgRzjyakl1GHFS/CXZO[39m[32m"[39m,
+    [34mstatus[39m: [32m"[39m[32mActive[39m[32m"[39m,
+    [34msend_welcome_email[39m: [35m1[39m,
+    [34mcreated_at[39m: [32m"[39m[32m2026-08-21 14:46:55[39m[32m"[39m,
+    [34mupdated_at[39m: [32m"[39m[32m2026-08-21 14:46:55[39m[32m"[39m,
+  }

@@ -147,7 +147,10 @@ const handleCheckOut = async () => {
         {employee && (
           <>
             <div className="employee-info">
-              <h3>{employee.name}</h3>
+             <h3>
+              {employee.first_name} {employee.last_name}
+             </h3>
+
              
              <p>
                 <strong>Name:</strong>{employee.name}

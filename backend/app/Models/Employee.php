@@ -3,34 +3,58 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\EmployeeDocument;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Employee extends Model
 {
+    protected $table = 'employees';
 
     protected $fillable = [
-
         'employee_id',
         'first_name',
         'last_name',
         'email',
         'phone',
-        'department',
+        'username',
+        'password',
         'designation',
         'joining_date',
         'salary',
-        'address'
-
+        'address',
+        'status',
     ];
 
-    
+    protected $hidden = [
+        'password',
+    ];
+
+  
+    public function user(): HasOne
+    {
+        return $this->hasOne(
+            User::class,
+            'employee_id',
+            'employee_id'
+        );
+    }
+
+   
+    public function departments(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Department::class,
+            'employee_departments',
+            'employee_id',
+            'department_id'
+        );
+    }
+
     
     public function documents()
-{
-
-    return $this->hasMany(EmployeeDocument::class);
-
-}
-
-
+    {
+        return $this->hasMany(
+            EmployeeDocument::class
+        );
+    }
 }

@@ -134,7 +134,18 @@ function EmployeeList() {
                                     </td>
 
                                     <td>
-                                        {emp.department}
+                                        {Array.isArray(emp.departments) && emp.departments.length > 0 ? (
+                                            emp.departments.map((dept) => (
+                                                <span
+                                                    key={dept.id}
+                                                    className="department-badge"
+                                                >
+                                                    {dept.name}
+                                                </span>
+                                            ))
+                                        ) : (
+                                            <span>No Department</span>
+                                        )}
                                     </td>
 
                                     <td>

@@ -8,7 +8,6 @@ use App\Models\Employee;
 class Payroll extends Model
 {
     protected $fillable = [
-
         'employee_id',
 
         'payroll_month',
@@ -38,7 +37,6 @@ class Payroll extends Model
 
 
     protected $casts = [
-
         'payroll_year' => 'integer',
 
         'working_days' => 'decimal:2',
@@ -64,11 +62,12 @@ class Payroll extends Model
     ];
 
 
-    /**
-     * Payroll belongs to Employee
-     */
     public function employee()
     {
-        return $this->belongsTo(Employee::class, 'employee_id');
+        return $this->belongsTo(
+            Employee::class,
+            'employee_id',
+            'id'
+        );
     }
 }
